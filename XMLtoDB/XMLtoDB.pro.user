@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.6.2, 2018-08-30T09:01:25. -->
+<!-- Written by QtCreator 4.6.2, 2018-08-30T09:37:46. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -284,13 +284,11 @@
      <value type="int">13</value>
      <value type="int">14</value>
     </valuelist>
-    <value type="int" key="PE.EnvironmentAspect.Base">0</value>
-    <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes">
-     <value type="QString">PATH=C:\Qt\Qt5.11.1\5.11.1\mingw53_32\lib;C:\Qt\Qt5.11.1\5.11.1\mingw53_32\bin;C:\PostgreSQL\9.5\lib;C:\PostgreSQL\9.5\bin;C:\PostgreSQL\9.5\include\libpq</value>
-    </valuelist>
+    <value type="int" key="PE.EnvironmentAspect.Base">2</value>
+    <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">XMLtoDB</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:C:/Users/SitnikovAA/Documents/XMLtoDB/XMLtoDB.pro</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">XMLtoDB2</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:C:/Users/SitnikovAA/Documents/GitHub/hooyakhooyakivprodakshen/XMLtoDB/XMLtoDB.pro</value>
     <value type="bool" key="QmakeProjectManager.QmakeRunConfiguration.UseLibrarySearchPath">true</value>
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.CommandLineArguments"></value>
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.ProFile">XMLtoDB.pro</value>
