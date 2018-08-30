@@ -113,19 +113,21 @@ void SQLQueryProcessor::PersInformationParser( QString PackageNumber)
                                RegDBQuery->bindValue(":ss" , Q2->boundValue(":snils"));
                                RegDBQuery->bindValue(":docs" , Q2->boundValue(":document_series"));
                                RegDBQuery->bindValue(":docn" , Q2->boundValue(":document_serial_number"));
-//                             // RegDBQuery->exec();
-//                               while(RegDBQuery->next())
-//                               {
-//                                   //qDebug()<<RegDBQuery->value(0).toInt();
-//                                   Q->bindValue(":reg_id" , RegDBQuery->value(0).toInt());
-//                              }
-                                Q->exec();
-                                Q2->exec();
+                               QtConcurrent::run([=]()
+                               {
+                                   RegDBQuery->exec();
+                                   while(RegDBQuery->next())
+                                       {
+                                           //qDebug()<<RegDBQuery->value(0).toInt();
+                                            Q->bindValue(":reg_id" , RegDBQuery->value(0).toInt());
+                                        }
+                                      Q->exec();
+                                      Q2->exec();
 
-                              //  QtConcurrent::run(this , SQLQueryProcessor::CommitQueries , Q , Q2 , RegDBQuery );
-                               // int T = Time.elapsed();
+                                      int T = Time.elapsed();
 
-                        //qDebug()<<"Done in: "<<T/60000<<" minutes"<<(T%60000)/1000<<" seconds";
+                                      qDebug()<<"Done in: "<<T/60000<<" minutes"<<(T%60000)/1000<<" seconds";});
+
                               }
                         }
                  }
@@ -143,27 +145,6 @@ qDebug()<<"Done reading personal info in: "<<Time.elapsed()/60000.;
 LFile->close();
 }
 
-void SQLQueryProcessor::CommitQueries(QSqlQuery* Q, QSqlQuery* Q2, QSqlQuery* RegQ)
-{
-//   RegQ->bindValue(":fam" , Q->boundValue(":last_name"));
-//   RegQ->bindValue(":im" , Q->boundValue(":name"));
-//   RegQ->bindValue(":ot" , Q->boundValue(":second_name"));
-//   RegQ->bindValue(":dr" , Q->boundValue(":birth_date"));
-//   RegQ->bindValue(":ss" , Q2->boundValue(":snils"));
-//   RegQ->bindValue(":docs" , Q2->boundValue(":document_series"));
-//   RegQ->bindValue(":docn" , Q2->boundValue(":document_serial_number"));
-
-
-   RegQ->exec();
-                               while(RegQ->next())
-                               {
-                                   //qDebug()<<RegQ->value(0).toInt();
-                                   Q->bindValue(":reg_id" , RegQ->value(0).toInt());
-                               }
-    Q->exec();
-    Q2->exec();
-
-}
 
 SQLQueryProcessor::~SQLQueryProcessor()
 {
