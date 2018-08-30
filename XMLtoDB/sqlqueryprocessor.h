@@ -18,6 +18,7 @@ protected:
     QXmlStreamReader *PIParser;
     QFile *LFile;
     QSqlQuery *Q, *Q2, *RegDBQuery;
+    QSqlDatabase db1;
 public:
     SQLQueryProcessor();
     SQLQueryProcessor(QString FileN, QString FileP, QSqlDatabase, QSqlDatabase RegDB);

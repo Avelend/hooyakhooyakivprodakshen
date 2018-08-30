@@ -8,10 +8,14 @@
 SQLQueryProcessor::SQLQueryProcessor(QString FileN , QString FileP, QSqlDatabase DB, QSqlDatabase RegDB)
 {
 
-    Q = new QSqlQuery(DB);
-    Q2 = new QSqlQuery(DB);  
-    RegDBQuery = new QSqlQuery(RegDB);
 
+    //db1 = new QSqlDatabase(DB);
+    //db2 = new QSqlDatabase(RegDB);
+    Q = new QSqlQuery(DB);
+    Q2 = new QSqlQuery(DB);
+    RegDBQuery = new QSqlQuery(RegDB);
+  //  db1 = &DB;
+    db1 = RegDB;
     LFileName = FileN;
     LFile = new QFile(FileP + "\\" + FileN);
     LFile->open(QIODevice::ReadOnly | QIODevice::Text);
@@ -106,27 +110,39 @@ void SQLQueryProcessor::PersInformationParser( QString PackageNumber)
 
                                  }
 
-                               RegDBQuery->bindValue(":fam" , Q->boundValue(":last_name"));
-                               RegDBQuery->bindValue(":im" , Q->boundValue(":name"));
-                               RegDBQuery->bindValue(":ot" , Q->boundValue(":second_name"));
-                               RegDBQuery->bindValue(":dr" , Q->boundValue(":birth_date"));
-                               RegDBQuery->bindValue(":ss" , Q2->boundValue(":snils"));
-                               RegDBQuery->bindValue(":docs" , Q2->boundValue(":document_series"));
-                               RegDBQuery->bindValue(":docn" , Q2->boundValue(":document_serial_number"));
+
                                QtConcurrent::run([=]()
                                {
-                                   RegDBQuery->exec();
+
+
+
+                                           RegDBQuery = new QSqlQuery(db1);
+                                           RegDBQuery->bindValue(":fam" , Q->boundValue(":last_name"));
+                                           RegDBQuery->bindValue(":im" , Q->boundValue(":name"));
+                                           RegDBQuery->bindValue(":ot" , Q->boundValue(":second_name"));
+                                           RegDBQuery->bindValue(":dr" , Q->boundValue(":birth_date"));
+                                           RegDBQuery->bindValue(":ss" , Q2->boundValue(":snils"));
+                                           RegDBQuery->bindValue(":docs" , Q2->boundValue(":document_series"));
+                                           RegDBQuery->bindValue(":docn" , Q2->boundValue(":document_serial_number"));
+
+                                           db1.transaction();
+                                           RegDBQuery->exec();
+
                                    while(RegDBQuery->next())
                                        {
-                                           //qDebug()<<RegDBQuery->value(0).toInt();
+                                           //qDebug()<<"Thread";
                                             Q->bindValue(":reg_id" , RegDBQuery->value(0).toInt());
                                         }
+                                   db1.commit();
+
+
                                       Q->exec();
                                       Q2->exec();
 
-                                      int T = Time.elapsed();
+//                                      int T = Time.elapsed();
 
-                                      qDebug()<<"Done in: "<<T/60000<<" minutes"<<(T%60000)/1000<<" seconds";});
+//                                      qDebug()<<"Done in: "<<T/60000<<" minutes"<<(T%60000)/1000<<" seconds";
+                               });
 
                               }
                         }
