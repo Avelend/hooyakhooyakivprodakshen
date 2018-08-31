@@ -35,7 +35,8 @@ void SQLQueryProcessor::PersInformationParser( QString PackageNumber)
                             "snils, okato_g, okato_p, okato_st, v_polis, polis_series, polis_serial_number, smo, smo_ogrn, smo_ok, smo_nam, inv , new_born, new_born_w) "
                 "VALUES (:pacient_id, :document_type, :document_series, :document_serial_number, :snils, :okato_g, :okato_p, 0 ,0 , 0 ,0 ,0 ,0 ,0 ,0, 0, 0, 0)");
 
-    RegDBQuery->prepare("SELECT id FROM \"123\".people WHERE fam = :fam AND im = :im AND ot = :ot AND dr = :dr AND (ss = :ss OR (docs = :docs AND docn = :docn))");
+    //RegDBQuery->prepare("SELECT id FROM \"123\".people WHERE fam = :fam AND im = :im AND ot = :ot AND dr = :dr AND (ss = :ss OR (docs = :docs AND docn = :docn))");
+    RegDBQuery->prepare("CALL foo(:fam, :im,:ot, :dr,:ss,:docs,:docn)");
 
     QTime Time;
     Time.start();
@@ -110,29 +111,31 @@ void SQLQueryProcessor::PersInformationParser( QString PackageNumber)
                                             if (token == QXmlStreamReader::StartElement && (PIParser->name()=="COMENTP" || PIParser->name()=="COMENTZ") ) PIParser->readElementText(QXmlStreamReader::ErrorOnUnexpectedElement);
 
                                  }
+                                Q->exec();
+                                Q2->exec();
+
+//                               QtConcurrent::run([=]()
+//                               {
+//                                RegDBQuery->bindValue(":fam" , Q->boundValue(":last_name"));
+//                                RegDBQuery->bindValue(":im" , Q->boundValue(":name"));
+//                                RegDBQuery->bindValue(":ot" , Q->boundValue(":second_name"));
+//                                RegDBQuery->bindValue(":dr" , Q->boundValue(":birth_date"));
+//                                RegDBQuery->bindValue(":ss" , Q2->boundValue(":snils"));
+//                                RegDBQuery->bindValue(":docs" , Q2->boundValue(":document_series"));
+//                                RegDBQuery->bindValue(":docn" , Q2->boundValue(":document_serial_number"));
+//                                RegDBQuery->bindValue(":id" , 0 , QSql::Out);
+
+//                                RegDBQuery->exec();
 
 
-                               QtConcurrent::run([=]()
-                               {
+//                                 Q->bindValue(":reg_id" , RegDBQuery->boundValue(":id").toInt());
 
-                                           RegDBQuery->bindValue(":fam" , Q->boundValue(":last_name"));
-                                           RegDBQuery->bindValue(":im" , Q->boundValue(":name"));
-                                           RegDBQuery->bindValue(":ot" , Q->boundValue(":second_name"));
-                                           RegDBQuery->bindValue(":dr" , Q->boundValue(":birth_date"));
-                                           RegDBQuery->bindValue(":ss" , Q2->boundValue(":snils"));
-                                           RegDBQuery->bindValue(":docs" , Q2->boundValue(":document_series"));
-                                           RegDBQuery->bindValue(":docn" , Q2->boundValue(":document_serial_number"));
+//                           Q->exec();
+//                           Q2->exec();
 
-                                           RegDBQuery->exec();
 
-                                   while(RegDBQuery->next())
-                                       {
-                                            Q->bindValue(":reg_id" , RegDBQuery->value(0).toInt());
-                                        }
-                                      Q->exec();
-                                      Q2->exec();
 
-                               });
+//                               });
                               // qDebug()<<"11";
 
                               }
