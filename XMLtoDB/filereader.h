@@ -29,7 +29,7 @@ protected:
     QString PackageNumber;
     QString LFilePath, LFileName;
     SQLQueryProcessor *QueryProcessor;
-   QSqlDatabase db,regdb;
+   QSqlDatabase db,db2,regdb;
 
 
 public:

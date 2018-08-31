@@ -3,6 +3,7 @@
 #include<QVariant>
 #include<QTime>
 #include<QtConcurrent>
+#include<QMutex>
 
 
 SQLQueryProcessor::SQLQueryProcessor(QString FileN , QString FileP, QSqlDatabase DB, QSqlDatabase RegDB)
@@ -114,9 +115,6 @@ void SQLQueryProcessor::PersInformationParser( QString PackageNumber)
                                QtConcurrent::run([=]()
                                {
 
-
-
-                                           RegDBQuery = new QSqlQuery(db1);
                                            RegDBQuery->bindValue(":fam" , Q->boundValue(":last_name"));
                                            RegDBQuery->bindValue(":im" , Q->boundValue(":name"));
                                            RegDBQuery->bindValue(":ot" , Q->boundValue(":second_name"));
@@ -125,24 +123,17 @@ void SQLQueryProcessor::PersInformationParser( QString PackageNumber)
                                            RegDBQuery->bindValue(":docs" , Q2->boundValue(":document_series"));
                                            RegDBQuery->bindValue(":docn" , Q2->boundValue(":document_serial_number"));
 
-                                           db1.transaction();
                                            RegDBQuery->exec();
 
                                    while(RegDBQuery->next())
                                        {
-                                           //qDebug()<<"Thread";
                                             Q->bindValue(":reg_id" , RegDBQuery->value(0).toInt());
                                         }
-                                   db1.commit();
-
-
                                       Q->exec();
                                       Q2->exec();
 
-//                                      int T = Time.elapsed();
-
-//                                      qDebug()<<"Done in: "<<T/60000<<" minutes"<<(T%60000)/1000<<" seconds";
                                });
+                              // qDebug()<<"11";
 
                               }
                         }

@@ -7,6 +7,7 @@
 #include<QXmlStreamReader>
 #include<QFile>
 #include<QObject>
+#include<QMutex>
 
 
 class SQLQueryProcessor : public QObject
@@ -19,6 +20,7 @@ protected:
     QFile *LFile;
     QSqlQuery *Q, *Q2, *RegDBQuery;
     QSqlDatabase db1;
+    QMutex Locker;
 public:
     SQLQueryProcessor();
     SQLQueryProcessor(QString FileN, QString FileP, QSqlDatabase, QSqlDatabase RegDB);

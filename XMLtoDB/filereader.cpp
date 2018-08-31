@@ -11,13 +11,15 @@ FileReader::FileReader()
     FileType = 1;
     CurrentFile = new QFile();
 
-    db = QSqlDatabase::addDatabase("QPSQL", "MainConnection");
+    db = QSqlDatabase::addDatabase("QPSQL", "ThreadConnection");
     db.setHostName("127.0.0.1");
     db.setDatabaseName("postgres");
     db.setUserName("alewa");
     db.setPassword("Ktyz5850361");
     db.setPort(5432);
     qDebug()<<db.open();
+
+
 
     regdb = QSqlDatabase::addDatabase("QPSQL" , "RegisterConnection");
     regdb.setHostName("192.168.1.222");
