@@ -10,13 +10,10 @@ SQLQueryProcessor::SQLQueryProcessor(QString FileN , QString FileP, QSqlDatabase
 {
 
 
-    //db1 = new QSqlDatabase(DB);
-    //db2 = new QSqlDatabase(RegDB);
+
     Q = new QSqlQuery(DB);
     Q2 = new QSqlQuery(DB);
     RegDBQuery = new QSqlQuery(RegDB);
-  //  db1 = &DB;
-    db1 = RegDB;
     LFileName = FileN;
     LFile = new QFile(FileP + "\\" + FileN);
     LFile->open(QIODevice::ReadOnly | QIODevice::Text);
@@ -36,7 +33,7 @@ void SQLQueryProcessor::PersInformationParser( QString PackageNumber)
                 "VALUES (:pacient_id, :document_type, :document_series, :document_serial_number, :snils, :okato_g, :okato_p, 0 ,0 , 0 ,0 ,0 ,0 ,0 ,0, 0, 0, 0)");
 
     //RegDBQuery->prepare("SELECT id FROM \"123\".people WHERE fam = :fam AND im = :im AND ot = :ot AND dr = :dr AND (ss = :ss OR (docs = :docs AND docn = :docn))");
-    RegDBQuery->prepare("CALL foo(:fam, :im,:ot, :dr,:ss,:docs,:docn)");
+   // RegDBQuery->prepare("CALL foo(:fam, :im,:ot, :dr,:ss,:docs,:docn)");
 
     QTime Time;
     Time.start();
@@ -93,14 +90,14 @@ void SQLQueryProcessor::PersInformationParser( QString PackageNumber)
                                             if (token == QXmlStreamReader::StartElement && PIParser->name()=="W") Q->bindValue(":gender" , PIParser->readElementText(QXmlStreamReader::ErrorOnUnexpectedElement));
                                             if (token == QXmlStreamReader::StartElement && PIParser->name()=="DR") Q->bindValue(":birth_date" , PIParser->readElementText(QXmlStreamReader::ErrorOnUnexpectedElement));
 
-                                            if (Version == "3.0" && token == QXmlStreamReader::StartElement && PIParser->name()=="FAM_P")Q->bindValue(":p_last_name" , PIParser->readElementText(QXmlStreamReader::ErrorOnUnexpectedElement));
-                                            if (Version == "3.0" && token == QXmlStreamReader::StartElement && PIParser->name()=="IM_P")Q->bindValue(":p_name" , PIParser->readElementText(QXmlStreamReader::ErrorOnUnexpectedElement));
-                                            if ( Version == "3.0" &&token == QXmlStreamReader::StartElement && PIParser->name()=="OT_P")Q->bindValue(":p_second_name" , PIParser->readElementText(QXmlStreamReader::ErrorOnUnexpectedElement));
-                                            if (Version == "3.0" && token == QXmlStreamReader::StartElement && PIParser->name()=="W_P") Q->bindValue(":p_gender" , PIParser->readElementText(QXmlStreamReader::ErrorOnUnexpectedElement));
-                                            if (Version == "3.0" && token == QXmlStreamReader::StartElement && PIParser->name()=="DR_P")Q->bindValue(":p_birth_date" , PIParser->readElementText(QXmlStreamReader::ErrorOnUnexpectedElement));
-                                            if (Version == "2.1" && token == QXmlStreamReader::StartElement && PIParser->name()=="DOST") PIParser->readElementText(QXmlStreamReader::ErrorOnUnexpectedElement);
-                                            if (Version == "2.1" &&token == QXmlStreamReader::StartElement && PIParser->name()=="DOST_P") PIParser->readElementText(QXmlStreamReader::ErrorOnUnexpectedElement);
-                                            if (Version == "2.1" && PIParser->name()=="TEL") PIParser->readElementText(QXmlStreamReader::ErrorOnUnexpectedElement);
+                                            if ( token == QXmlStreamReader::StartElement && PIParser->name()=="FAM_P")Q->bindValue(":p_last_name" , PIParser->readElementText(QXmlStreamReader::ErrorOnUnexpectedElement));
+                                            if ( token == QXmlStreamReader::StartElement && PIParser->name()=="IM_P")Q->bindValue(":p_name" , PIParser->readElementText(QXmlStreamReader::ErrorOnUnexpectedElement));
+                                            if (  token == QXmlStreamReader::StartElement && PIParser->name()=="OT_P")Q->bindValue(":p_second_name" , PIParser->readElementText(QXmlStreamReader::ErrorOnUnexpectedElement));
+                                            if ( token == QXmlStreamReader::StartElement && PIParser->name()=="W_P") Q->bindValue(":p_gender" , PIParser->readElementText(QXmlStreamReader::ErrorOnUnexpectedElement));
+                                            if ( token == QXmlStreamReader::StartElement && PIParser->name()=="DR_P")Q->bindValue(":p_birth_date" , PIParser->readElementText(QXmlStreamReader::ErrorOnUnexpectedElement));
+                                            if ( token == QXmlStreamReader::StartElement && PIParser->name()=="DOST") PIParser->readElementText(QXmlStreamReader::ErrorOnUnexpectedElement);
+                                            if (token == QXmlStreamReader::StartElement && PIParser->name()=="DOST_P") PIParser->readElementText(QXmlStreamReader::ErrorOnUnexpectedElement);
+                                            if (  PIParser->name()=="TEL") PIParser->readElementText(QXmlStreamReader::ErrorOnUnexpectedElement);
                                             if ( PIParser->name()=="MR") Q->bindValue(":birth_place" , PIParser->readElementText(QXmlStreamReader::ErrorOnUnexpectedElement));
                                             if (token == QXmlStreamReader::StartElement && PIParser->name()=="DOCTYPE")Q2->bindValue(":document_type" , PIParser->readElementText(QXmlStreamReader::ErrorOnUnexpectedElement));
                                             if (token == QXmlStreamReader::StartElement && PIParser->name()=="DOCSER") Q2->bindValue(":document_series" , PIParser->readElementText(QXmlStreamReader::ErrorOnUnexpectedElement));
