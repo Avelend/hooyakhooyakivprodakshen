@@ -15,7 +15,7 @@ FileReader::FileReader()
     db.setHostName("127.0.0.1");
     db.setDatabaseName("postgres");
     db.setUserName("alewa");
-    db.setPassword("");
+    db.setPassword("EybrfkmysqGfhjkm");
     db.setPort(5432);
     qDebug()<<db.open();
 
